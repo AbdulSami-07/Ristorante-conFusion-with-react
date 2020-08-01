@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Breadcrumb, BreadcrumbItem, Button, Form, FormGroup, Label, Input, Col } from 'reactstrap';
+import { Breadcrumb, BreadcrumbItem, Button, Form, FormGroup, Label, Input, Col, FormFeedback } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 class Contact extends Component {
@@ -13,10 +13,52 @@ class Contact extends Component {
             email : "",
             agree : false,
             contactType : "Tel.",
-            message : ""
+            message : "",
+            touched : {
+                firstname : false,
+                lastname : false,
+                telnum : false,
+                email : false
+            }
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleInChange = this.handleInChange.bind(this);
+        this.handleBlur = this.handleBlur.bind(this);
+    }
+
+    handleBlur = (field) => (evt) => {
+        this.setState({
+            touched : {...this.state.touched, [field] : true}
+        })
+    }
+
+    validate(firstname,lastname,telnum,email){
+        const errors ={
+            firstname : "",
+            lastname : "",
+            telnum : "",
+            email : ""
+        }
+        if (this.state.touched.firstname &&  firstname.length < 3)
+            errors.firstname = "Atleat 3 characters.";
+        else if (this.state.touched.firstname &&  firstname.length >10)
+            errors.firstname = "Max 10 characters.";
+        
+        if (this.state.touched.lastname &&  lastname.length < 3)
+            errors.lastname = "Atleat 3 characters.";
+        else if (this.state.touched.lastname &&  lastname.length >10)
+            errors.lastname = "Max 10 characters.";
+
+        const regex =/^\d+$/;
+        if (this.state.touched.telnum && !regex.test(telnum))
+            errors.telnum = "Only numbers";
+        else if (this.state.touched.telnum && telnum.length  !== 10 )
+            errors.telnum = "Number should have 10 digits";
+            
+        if (this.state.touched.email && email.split("").filter(x => x === '@').length !== 1)
+            errors.email = "Email has invalid format";
+        
+        return errors;
     }
 
     handleInChange(event) {
@@ -37,6 +79,7 @@ class Contact extends Component {
     }
 
     render(){
+        const errors = this.validate(this.state.firstname,this.state.lastname,this.state.telnum,this.state.email);
         return(
             <div className="container">
                 <div className="row">
@@ -86,25 +129,37 @@ class Contact extends Component {
                             <FormGroup row>
                                 <Label htmlfor="firstname" md={2}>First Name</Label>
                                 <Col md={10}>
-                                    <Input type="text" id="firstname" name="firstname" placeholder="First Name" value={this.state.firstname} onChange={this.handleInChange} />
+                                    <Input type="text" id="firstname" name="firstname" placeholder="First Name"
+                                     value={this.state.firstname} onChange={this.handleInChange} onBlur={this.handleBlur('firstname')}
+                                     valid={errors.firstname === ""}  invalid={errors.firstname !== ""}  />
+                                    <FormFeedback>{errors.firstname}</FormFeedback>
                                 </Col>
                             </FormGroup>
                             <FormGroup row>
                                 <Label htmlfor="lastname" md={2}>Last Name</Label>
                                 <Col md={10}>
-                                    <Input type="text" id="lastname" name="lastname" placeholder="Last Name" value={this.state.lastname}  onChange={this.handleInChange}  />
+                                    <Input type="text" id="lastname" name="lastname" placeholder="Last Name"
+                                     value={this.state.lastname}  onChange={this.handleInChange}  onBlur={this.handleBlur('lastname')} 
+                                     valid={errors.lastname === ""}  invalid={errors.lastname !== ""} />
+                                    <FormFeedback>{errors.lastname}</FormFeedback>
                                 </Col>
                             </FormGroup>
                             <FormGroup row>
-                                <Label htmlfor="telnum" md={2}>First Name</Label>
+                                <Label htmlfor="telnum" md={2}>Tel. Number</Label>
                                 <Col md={10}>
-                                    <Input type="tel" id="telnum" name="telnum" placeholder="Tel. Number" value={this.state.telnum}  onChange={this.handleInChange} />
+                                    <Input type="tel" id="telnum" name="telnum" placeholder="Tel. Number"
+                                     value={this.state.telnum}  onChange={this.handleInChange} onBlur={this.handleBlur('telnum')} 
+                                     valid={errors.telnum === ""}  invalid={errors.telnum !== ""} />
+                                    <FormFeedback>{errors.telnum}</FormFeedback>
                                 </Col>
                             </FormGroup>
                             <FormGroup row>
                                 <Label htmlfor="email" md={2}>Email</Label>
                                 <Col md={10}>
-                                    <Input type="email" id="email" name="email" placeholder="Email" value={this.state.email}  onChange={this.handleInChange} />
+                                    <Input type="email" id="email" name="email" placeholder="Email"
+                                     value={this.state.email}  onChange={this.handleInChange} onBlur={this.handleBlur('email')} 
+                                     valid={errors.email === ""}  invalid={errors.email !== ""} />
+                                    <FormFeedback>{errors.email}</FormFeedback>
                                 </Col>
                             </FormGroup>
                             <FormGroup row>
