@@ -72,7 +72,7 @@ class Contact extends Component {
                     <div className="col-12 col-md-9">
                         <LocalForm onSubmit={(values) => this.handleSubmit(values)}>
                             <Row className="form-group">
-                                <Label htmlfor="firstname" md={2}>First Name</Label>
+                                <Label htmlFor="firstname" md={2}>First Name</Label>
                                 <Col md={10}>
                                     <Control.text model=".firstname" className="form-control" id="firstname" name="firstname" placeholder="First Name" 
                                     validators={{
@@ -87,7 +87,7 @@ class Contact extends Component {
                                 </Col>
                             </Row>
                             <Row className="form-group">
-                                <Label htmlfor="lastname" md={2}>Last Name</Label>
+                                <Label htmlFor="lastname" md={2}>Last Name</Label>
                                 <Col md={10}>
                                     <Control.text model=".lastname" className="form-control" id="lastname" name="lastname" placeholder="Last Name" 
                                     validators={{
@@ -102,7 +102,7 @@ class Contact extends Component {
                                 </Col>
                             </Row>
                             <Row className="form-group">
-                                <Label htmlfor="telnum" md={2}>Tel. Number</Label>
+                                <Label htmlFor="telnum" md={2}>Tel. Number</Label>
                                 <Col md={10}>
                                     <Control.text model=".telnum" className="form-control" id="telnum" name="telnum" placeholder="Tel. Number" 
                                     validators={{
@@ -118,7 +118,7 @@ class Contact extends Component {
                                 </Col>
                             </Row>
                             <Row className="form-group">
-                                <Label htmlfor="email" md={2}>Email</Label>
+                                <Label htmlFor="email" md={2}>Email</Label>
                                 <Col md={10}>
                                     <Control.text model=".email" className="form-control" id="email" name="email" placeholder="Email"
                                     validators={{
@@ -148,7 +148,7 @@ class Contact extends Component {
                                 </Col>
                             </Row>
                             <Row className="form-group">
-                                <Label htmlfor="message" md={2}>Your Feedback</Label>
+                                <Label htmlFor="message" md={2}>Your Feedback</Label>
                                 <Col md={10}>
                                     <Control.textarea model=".message" className="form-control" id="message" name="message"  rows={12} />
                                 </Col>
