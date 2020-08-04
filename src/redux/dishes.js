@@ -1,10 +1,11 @@
 import *  as ActionTypes from './ActionTypes';
 
+//Reducer function. 
 export const Dishes = (state = {
         isLoading: true,
         errMess : null,
         dishes : []
-    }, action) => { //Reducer function. 
+    }, action) => { 
     switch(action.type) {
         case ActionTypes.ADD_DISHES:
             return {...state, isLoading : false, errMess: null, dishes: action.payload};
