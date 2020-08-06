@@ -44,10 +44,10 @@ function Home(props) {
         <div className="container">
             <div className="row align-items-start">
                 <div className="col-12 col-md m-1">
-                    <RenderCard item={props.dish} dishLoading={props.dishLoading} dishErrMess={props.dishErrMess} />
+                    <RenderCard item={props.dish} isLoading={props.dishLoading} errMess={props.dishErrMess} />
                 </div>
                 <div className="col-12 col-md m-1">
-                    <RenderCard item={props.promotion} promotionLoading={props.promotionLoading} promotionErrMess={props.promotionErrMess} />
+                    <RenderCard item={props.promotion} isLoading={props.promotionLoading} errMess={props.promotionErrMess} />
                 </div>
                 <div className="col-12 col-md m-1">
                     <RenderCard item={props.leader} />
