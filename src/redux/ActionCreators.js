@@ -42,6 +42,33 @@ export const postComment =  (dishId, rating, author, comment) => (dispatch) =>{
     });
 };
 
+export const postFeedback = (feedback) =>(dispatch) =>{
+    return fetch(baseUrl + 'feedback',{
+        method : "POST",
+        headers :{
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(feedback),
+        credentials: "same-origin"
+    })
+    .then(response => {
+        if(response.ok){
+            return response;
+        }
+        else {
+            let error = new Error('Error ' + response.status + ": " + response.statusText);
+            error.response = response;
+            throw error;
+        }  
+    },
+    error =>{
+        let errmess = new Error(error.message);
+        throw errmess;
+    })
+    .then(response =>  response.json());
+};
+
+
 
 export const fetchDishes = () => (dispatch) => {             
     dispatch(dishesLoading());
@@ -111,6 +138,29 @@ export const fetchPromos = () => (dispatch) => {
     .catch(error =>dispatch(promosFailed(error.message)));
 }
 
+export const fetchLeaders = () => (dispatch) => {             
+    dispatch(leadersLoading());
+    
+    return fetch(baseUrl + 'leaders')
+    .then(response => {
+        if(response.ok){
+            return response;
+        }
+        else {
+            let error = new Error('Error ' + response.status + ": " + response.statusText);
+            error.response = response;
+            throw error;
+        }
+    },
+    error =>{
+        let errmess = new Error(error.message);
+        throw errmess;
+    })
+    .then(response =>  response.json())
+        .then(leaders => dispatch(addLeaders(leaders)))
+    .catch(error =>dispatch(leadersFailed(error.message)));
+};
+
 //action creaters
 export const addComment = (comment) => ({  
     type : ActionTypes.ADD_COMMENT,
@@ -155,3 +205,27 @@ export  const addPromos = (promos) =>({
     type: ActionTypes.ADD_PROMOS,
     payload: promos
 });
+
+export const addLeaders = (leaders) =>({
+    type: ActionTypes.ADD_LEADERS,
+    payload: leaders
+});
+
+export const leadersFailed = (errmess)=>({
+    type: ActionTypes.LEADERS_FAILED,
+    payload: errmess
+});
+
+export const leadersLoading = () =>({
+    type: ActionTypes.LEADERS_LOADING
+});
+
+// export const addFeedback = (feedback) =>({
+//     type: ActionTypes.ADD_FEEDBACK,
+//     payload: feedback
+// });
+
+// export const feedbackFailed = (errmess) =>({
+//     type: ActionTypes.FEEDBACK_FAILED,
+//     payload: errmess
+// });
